@@ -8,7 +8,7 @@ Resources for Internet censorship circumvention
 
 如果不能翻墙，则导入 `config_basic`。确保能翻墙后，再操作。
 
-    https://cdn.jsdelivr.net/gh/JohanChane/IccRes@latest/clash/config_basic.yaml
+    https://cdn.jsdelivr.net/gh/JohanChane/IccRes@main/clash/config_basic.yaml
 
 ### Android 平台
 

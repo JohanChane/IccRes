@@ -12,4 +12,9 @@
 
 ## 使用说明
 
-    update_res.py -h
+```shell
+# 下载文件
+curl -fLo update-subs.py --create-dirs 'https://raw.githubusercontent.com/JohanChane/IccRes/main/clash/update_res/update_res.py'
+# 查看帮助
+./update_res.py -h
+```
