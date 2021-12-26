@@ -12,6 +12,8 @@
 
 ## 使用说明
 
+[使用说明](https://github.com/JohanChane/IccRes/blob/main/clash/update_res/update_res.py)
+
 ```shell
 # 下载文件
 curl -fLo update-subs.py --create-dirs 'https://raw.githubusercontent.com/JohanChane/IccRes/main/clash/update_res/update_res.py'
