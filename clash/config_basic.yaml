@@ -1,0 +1,259 @@
+# Port of HTTP(S) proxy server on the local end
+# port: 7890
+
+# Port of SOCKS5 proxy server on the local end
+# socks-port: 7891
+
+# Transparent proxy server port for Linux and macOS (Redirect TCP and TProxy UDP)
+# redir-port: 7892
+
+# Transparent proxy server port for Linux (TProxy TCP and TProxy UDP)
+# tproxy-port: 7893
+
+# HTTP(S) and SOCKS4(A)/SOCKS5 server on the same port
+mixed-port: 7890
+
+# authentication of local SOCKS5/HTTP(S) server
+# authentication:
+#  - "user1:pass1"
+#  - "user2:pass2"
+
+# Set to true to allow connections to the local-end server from
+# other LAN IP addresses
+allow-lan: false
+
+# This is only applicable when `allow-lan` is `true`
+# '*': bind all IP addresses
+# 192.168.122.11: bind a single IPv4 address
+# "[aaaa::a8aa:ff:fe09:57d8]": bind a single IPv6 address
+bind-address: '*'
+
+# Clash router working mode
+# rule: rule-based packet routing
+# global: all packets will be forwarded to a single endpoint
+# direct: directly forward the packets to the Internet
+mode: rule
+
+# Clash by default prints logs to STDOUT
+# info / warning / error / debug / silent
+log-level: info
+
+# When set to false, resolver won't translate hostnames to IPv6 addresses
+ipv6: false
+
+# RESTful web API listening address
+external-controller: 127.0.0.1:9090
+
+# A relative path to the configuration directory or an absolute path to a
+# directory in which you put some static web resource. Clash core will then
+# serve it at `http://{{external-controller}}/ui`.
+# external-ui: yacd
+
+# Secret for the RESTful API (optional)
+# Authenticate by spedifying HTTP header `Authorization: Bearer ${secret}`
+# ALWAYS set a secret if RESTful API is listening on 0.0.0.0
+# secret: ""
+
+# Outbound interface name
+# interface-name: en0
+
+# Static hosts for DNS server and connection establishment (like /etc/hosts)
+#
+# Wildcard hostnames are supported (e.g. *.clash.dev, *.foo.*.example.com)
+# Non-wildcard domain names have a higher priority than wildcard domain names
+# e.g. foo.example.com > *.example.com > .example.com
+# P.S. +.foo.com equals to .foo.com and foo.com
+hosts:
+  # '*.clash.dev': 127.0.0.1
+  # '.dev': 127.0.0.1
+  # 'alpha.clash.dev': '::1'
+
+profile:
+  # Store the `select` results in $HOME/.config/clash/.cache
+  # set false If you don't want this behavior
+  # when two different configurations have groups with the same name, the selected values are shared
+  store-selected: true
+
+# DNS server settings
+# This section is optional. When not present, the DNS server will be disabled.
+# dns:
+#   enable: false
+#   listen: 0.0.0.0:53
+#   # ipv6: false # when the false, response to AAAA questions will be empty
+#
+#   # These nameservers are used to resolve the DNS nameserver hostnames below.
+#   # Specify IP addresses only
+#   default-nameserver:
+#     - 114.114.114.114
+#     - 8.8.8.8
+#   enhanced-mode: redir-host # or fake-ip
+#   # fake-ip-range: 198.18.0.1/16 # Fake IP addresses pool CIDR
+#   # use-hosts: true # lookup hosts and return IP record
+#
+#   # Hostnames in this list will not be resolved with fake IPs
+#   # i.e. questions to these domain names will always be answered with their
+#   # real IP addresses
+#   # fake-ip-filter:
+#   #   - '*.lan'
+#   #   - localhost.ptlogin2.qq.com
+#
+#   # Supports UDP, TCP, DoT, DoH. You can specify the port to connect to.
+#   # All DNS questions are sent directly to the nameserver, without proxies
+#   # involved. Clash answers the DNS question with the first result gathered.
+#   nameserver:
+#     - 114.114.114.114 # default value
+#     - 8.8.8.8 # default value
+#     - tls://dns.rubyfish.cn:853 # DNS over TLS
+#     - https://1.1.1.1/dns-query # DNS over HTTPS
+#     # - dhcp://en0 # dns from dhcp
+#
+#   # When `fallback` is present, the DNS server will send concurrent requests
+#   # to the servers in this section along with servers in `nameservers`.
+#   # The answers from fallback servers are used when the GEOIP country
+#   # is not `CN`.
+#   # fallback:
+#   #   - tcp://1.1.1.1
+#
+#   # If IP addresses resolved with servers in `nameservers` are in the specified
+#   # subnets below, they are considered invalid and results from `fallback`
+#   # servers are used instead.
+#   #
+#   # IP address resolved with servers in `nameserver` is used when
+#   # `fallback-filter.geoip` is true and when GEOIP of the IP address is `CN`.
+#   #
+#   # If `fallback-filter.geoip` is false, results from `nameserver` nameservers
+#   # are always used if not match `fallback-filter.ipcidr`.
+#   #
+#   # This is a countermeasure against DNS pollution attacks.
+#   # fallback-filter:
+#   #   geoip: true
+#   #   geoip-code: CN
+#   #   ipcidr:
+#   #     - 240.0.0.0/4
+#   #   domain:
+#   #     - '+.google.com'
+#   #     - '+.facebook.com'
+#   #     - '+.youtube.com'
+#
+#   # Lookup domains via specific nameservers
+#   # nameserver-policy:
+#   #   'www.baidu.com': '114.114.114.114'
+#   #   '+.internal.crop.com': '10.0.0.1'
+
+# ## tun
+dns:
+  enable: true
+  enhanced-mode: fake-ip
+  nameserver:
+    # ## 真实请求DNS
+    - 114.114.114.114 # 真实请求DNS，可多设置几个
+    # ## 国内服务器
+    - 119.29.29.29    # 腾讯
+    - 223.5.5.5       # 阿里
+    - 180.76.76.76    # 百度
+    # ## 真实请求DNS
+    - 8.8.8.8
+tun:
+  enable: true
+  stack: system # 或 gvisor
+  dns-hijack:
+    - 1.0.0.1:53 # 请勿更改
+
+proxy-groups:
+  - name: "PROXY"
+    type: select
+    # disable-udp: true
+    proxies:
+      - AllFallback
+      - AllSelect
+
+  - name: "AllFallback"
+    type: url-test
+    use:
+    proxies:
+      - KeenPinkAuto-b
+      - KeenPinkAuto-c
+      - KeenPinkAuto-z
+    # tolerance: 50
+    # lazy: true
+    # url: 'http://www.gstatic.com/generate_204'
+    url: 'https://www.google.com'
+    interval: 30
+
+  - name: "AllSelect"
+    type: select
+    # disable-udp: true
+    use:
+      - keenpink_myfilter-ba
+      - keenpink_myfilter-ca
+      - keenpink_myfilter-za
+    proxies:
+
+  - name: "KeenPinkAuto-b"
+    type: url-test
+    use:
+      - keenpink_myfilter-ba
+    proxies:
+    # tolerance: 50
+    # lazy: true
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+
+  - name: "KeenPinkAuto-c"
+    type: url-test
+    use:
+      - keenpink_myfilter-ca
+    proxies:
+    # tolerance: 50
+    # lazy: true
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+
+  - name: "KeenPinkAuto-z"
+    type: url-test
+    use:
+      - keenpink_myfilter-za
+    proxies:
+    # tolerance: 50
+    # lazy: true
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+
+proxy-providers:
+  keenpink_myfilter-ba:
+    type: http
+    url: "https://proxypool.remon602.ga/clash/proxies?filter=nrp&type=vmess,ssr,trojan&c=SG,CA,RU,AU,CH,DE,FR,GD,NL,JP,US,CN,HK,TW,MO"
+    path: ./proxy-providers/keenpink/myfilter-ba.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      interval: 600
+      # lazy: true
+      url: http://www.gstatic.com/generate_204
+
+  keenpink_myfilter-ca:
+    type: http
+    url: "https://proxypool.remon602.ga/clash/proxies?filter=nrp&c=AD,AE,AF,AG,AI,AL,AM,AN,AO,AQ,AR,ARPA,AS,AT,AW,AZ,BA,BB,BD,BE,BF,BG,BH,BI,BJ,BM,BN,BO,BR,BS,BT,BV,BW,BY,BZ,CC,CF,CD,CG,CI,CK,CL,CM,CO,COM,CR,CS,CU,CV,CX,CY,CZ,DJ,DK,DM,DO,DZ,EC,EDU,EE,EG,EH,ER,ES,ET,FI,FJ,FK,FM,FO,FX,GA,GB,GE,GF,GH,GI,GL,GM,GN,GOV,GP,GQ,GR,GS,GT,GU,GW,GY,HM,HN,HR,HT,HU,ID,IE,IL,IN,INT,IO,IQ,IR,IS,IT,JM,JO,KE,KG,KH,KI,KM,KN,KP,KR,KW,KY,KZ,LA,LB,LC,LI,LK,LR,LS,LT,LU,LV,LY,MA,MC,MD,MG,MH,MIL,MK,ML,MM,MN,MP,MQ,MR,MS,MT,MU,MV,MW,MX,MY,MZ,NA,NATO,NC,NE,NET,NF,NG,NI,NO,NP,NR,NT,NU,NZ,OM,ORG,PA,PE,PF,PG,PH,PK,PL,PM,PN,PR,PT,PW,PY,QA,RE,RO,RW,SA,SB,SC,SD,SE,SH,SI,SJ,SK,SL,SM,SN,SO,SR,ST,SU,SV,SY,SZ,TC,TD,TF,TG,TH,TJ,TK,TM,TN,TO,TP,TR,TT,TV,TZ,UA,UG,UK,UM,UY,UZ,VA,VC,VE,VG,VI,VN,VU,WF,WS,YE,YT,YU,ZA,ZM,ZR,ZW"
+    path: ./proxy-providers/keenpink/myfilter-bb.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      interval: 600
+      # lazy: true
+      url: http://www.gstatic.com/generate_204
+
+  keenpink_myfilter-za:
+    type: http
+    url: "https://proxypool.remon602.ga/clash/proxies?filter=r"
+    path: ./proxy-providers/keenpink/myfilter-bc.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      interval: 600
+      # lazy: true
+      url: http://www.gstatic.com/generate_204
+
+rules:
+  - DOMAIN,clash.razord.top,DIRECT
+  - DOMAIN,yacd.haishan.me,DIRECT
+  - MATCH,PROXY
