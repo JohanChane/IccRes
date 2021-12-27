@@ -16,7 +16,7 @@ Resources for Internet censorship circumvention
 
 ### Windows 平台
 
-用 Clash for Windows, 并开启 tun 模式。
+用 Clash for Windows, 并[开启 tun 模式](https://docs.cfw.lbyczf.com/contents/tun.html#windows)。
 
 1.  安装运行 linux shell 的工具。比如：msys64。
 2.  导入配置。比如：在 github 打开配置的文件，并点击 "Raw" 按钮，然后复制 url，再然后在 Clash for Windows 中导入该 url。
