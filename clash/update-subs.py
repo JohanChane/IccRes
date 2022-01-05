@@ -27,9 +27,14 @@ def filter_proxies(net_res_files, clash_cfg_dir):
     # 恢复环境
     os.chdir(oldcwd)
 
-def install_proxy_providers(dest_dir, src_dir):
-    os.system(f'sudo install -o nobody -g nobody -m 0750 -d {dest_dir}')
-    os.system(f'sudo install -o nobody -g nobody -m 0644 -t {dest_dir} {src_dir.rstrip("/")}/*')
+# net_res_files 的路径 src_clash_cfg_dir 是相对路径
+def install_proxy_providers(net_res_files, src_clash_cfg_dir, dest_clash_cfg_dir):
+    for x in net_res_files:
+        src_file = os.path.join(src_clash_cfg_dir, x)
+        dest_file = os.path.join(dest_clash_cfg_dir, x)
+        if not os.path.exists(os.path.dirname(dest_file)):
+            os.system(f'sudo -u nobody mkdir -p {os.path.dirname(dest_file)}')
+        os.system(f'sudo install -o nobody -g nobody -m 0644 {src_file} {dest_file}')
 
 def main():
     # 要注意 home_path 是否正确
@@ -50,10 +55,10 @@ def main():
 
     filter_proxies(net_res_files, clash_cfg_dir)
 
-    # ## tun
-    #  dest_dir = '/srv/clash/proxy-providers/yugogo'
-    #  src_dir = os.path.join(clash_cfg_dir, 'proxy-providers/yugogo')
-    #  install_proxy_providers(dest_dir, src_dir)
+    # ## install to /srv/clash
+    #  src_clash_cfg_dir = clash_cfg_dir
+    #  dest_clash_cfg_dir = '/srv/clash'
+    #  install_proxy_providers(net_res_files, src_clash_cfg_dir, dest_clash_cfg_dir)
 
     print('Please reload your profile or config.')
     #  os.system('sudo systemctl restart clash')

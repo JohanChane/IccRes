@@ -76,69 +76,6 @@ profile:
 
 # DNS server settings
 # This section is optional. When not present, the DNS server will be disabled.
-#dns:
-# enable: false
-# listen: 0.0.0.0:53
-# # ipv6: false # when the false, response to AAAA questions will be empty
-#
-# # These nameservers are used to resolve the DNS nameserver hostnames below.
-# # Specify IP addresses only
-# default-nameserver:
-#   - 114.114.114.114
-#   - 8.8.8.8
-# enhanced-mode: redir-host # or fake-ip
-# # fake-ip-range: 198.18.0.1/16 # Fake IP addresses pool CIDR
-# # use-hosts: true # lookup hosts and return IP record
-#
-# # Hostnames in this list will not be resolved with fake IPs
-# # i.e. questions to these domain names will always be answered with their
-# # real IP addresses
-# # fake-ip-filter:
-# #   - '*.lan'
-# #   - localhost.ptlogin2.qq.com
-#
-# # Supports UDP, TCP, DoT, DoH. You can specify the port to connect to.
-# # All DNS questions are sent directly to the nameserver, without proxies
-# # involved. Clash answers the DNS question with the first result gathered.
-# nameserver:
-#   - 114.114.114.114 # default value
-#   - 8.8.8.8 # default value
-#   - tls://dns.rubyfish.cn:853 # DNS over TLS
-#   - https://1.1.1.1/dns-query # DNS over HTTPS
-#   # - dhcp://en0 # dns from dhcp
-#
-# # When `fallback` is present, the DNS server will send concurrent requests
-# # to the servers in this section along with servers in `nameservers`.
-# # The answers from fallback servers are used when the GEOIP country
-# # is not `CN`.
-# # fallback:
-# #   - tcp://1.1.1.1
-#
-# # If IP addresses resolved with servers in `nameservers` are in the specified
-# # subnets below, they are considered invalid and results from `fallback`
-# # servers are used instead.
-# #
-# # IP address resolved with servers in `nameserver` is used when
-# # `fallback-filter.geoip` is true and when GEOIP of the IP address is `CN`.
-# #
-# # If `fallback-filter.geoip` is false, results from `nameserver` nameservers
-# # are always used if not match `fallback-filter.ipcidr`.
-# #
-# # This is a countermeasure against DNS pollution attacks.
-# # fallback-filter:
-# #   geoip: true
-# #   geoip-code: CN
-# #   ipcidr:
-# #     - 240.0.0.0/4
-# #   domain:
-# #     - '+.google.com'
-# #     - '+.facebook.com'
-# #     - '+.youtube.com'
-#
-# # Lookup domains via specific nameservers
-# # nameserver-policy:
-# #   'www.baidu.com': '114.114.114.114'
-# #   '+.internal.crop.com': '10.0.0.1'
 
 # ## tun
 dns:
@@ -164,13 +101,13 @@ proxy-groups:
     type: select
     # disable-udp: true
     proxies:
-      - KeenPinkFallback-aa
-      - KeenPinkAuto-aa
-      - KeenPinkAuto-b
-      - KeenPinkAuto-c
-      - KeenPinkAuto-d
-      - KeenPinkAuto-z
+      - AllFallback-aa
+      - AllAuto-aa
       - AllSelect
+      - YugogoAuto-b
+      - YugogoAuto-c
+      - YugogoAuto-d
+      - KeenPinkAuto-z
     # lazy: true
     # url: 'http://www.gstatic.com/generate_204'
     url: 'https://www.google.com'
@@ -183,37 +120,38 @@ proxy-groups:
       - DIRECT
       - PROXY
 
-  - name: "KeenPinkFallback-aa"
+  - name: "AllFallback-aa"
     type: fallback
     use:
     proxies:
+      - YugogoAuto-b
       - KeenPinkAuto-z
-      - KeenPinkAuto-c
-      - KeenPinkAuto-d
-      # - KeenPinkAuto-b
+      - YugogoAuto-c
+      - YugogoAuto-d
     # tolerance: 50
     # lazy: true
-    # url: 'https://www.gstatic.com/generate_204'
+    # url: 'http://www.gstatic.com/generate_204'
     url: 'https://www.google.com'
     interval: 30
 
-  - name: "KeenPinkAuto-aa"
+  - name: "AllAuto-aa"
     type: url-test
     use:
     proxies:
-      # - KeenPinkAuto-b
-      - KeenPinkAuto-c
-      - KeenPinkAuto-d
+      - YugogoAuto-b
+      - YugogoAuto-c
+      - YugogoAuto-d
       - KeenPinkAuto-z
     # tolerance: 50
     # lazy: true
-    # url: 'https://www.gstatic.com/generate_204'
+    # url: 'http://www.gstatic.com/generate_204'
     url: 'https://www.google.com'
     interval: 30
 
   - name: "AllSelect"
     type: select
     use:
+      - yugogo_myfilter-ba
       - keenpink_myfilter-za
     proxies:
     # lazy: true
@@ -221,37 +159,35 @@ proxy-groups:
     url: 'https://www.google.com'
     interval: 300
 
-  - name: "KeenPinkAuto-b"
+  - name: "YugogoAuto-b"
     type: url-test
     use:
-      - keenpink_myfilter-ba
-      - keenpink_myfilter-bb
-      - keenpink_myfilter-bc
+      - yugogo_myfilter-ba
     proxies:
     # tolerance: 50
     # lazy: true
     url: 'http://www.gstatic.com/generate_204'
     interval: 300
 
-  - name: "KeenPinkAuto-c"
+  - name: "YugogoAuto-c"
     type: url-test
     use:
-      - keenpink_myfilter-ca
-      - keenpink_myfilter-cb
-      - keenpink_myfilter-cc
-      - keenpink_myfilter-cd
+      - yugogo_myfilter-ca
+      - yugogo_myfilter-cb
+      - yugogo_myfilter-cc
+      - yugogo_myfilter-cd
     proxies:
     # tolerance: 50
     # lazy: true
     url: 'http://www.gstatic.com/generate_204'
     interval: 300
 
-  - name: "KeenPinkAuto-d"
+  - name: "YugogoAuto-d"
     type: url-test
     use:
-      - keenpink_myfilter-da
-      - keenpink_myfilter-db
-      - keenpink_myfilter-dc
+      - yugogo_myfilter-da
+      - yugogo_myfilter-db
+      - yugogo_myfilter-dc
     proxies:
     # tolerance: 50
     # lazy: true
@@ -269,10 +205,10 @@ proxy-groups:
     interval: 300
 
 proxy-providers:
-  keenpink_myfilter-ba:
+  yugogo_myfilter-ba:
     type: http
-    url: "https://proxypool.remon602.ga/clash/proxies?filter=nrp&type=ss&c=CN,HK,TW,MO"
-    path: ./proxy-providers/keenpink/myfilter-ba.yaml
+    url: "https://sspool.herokuapp.com/clash/proxies?c=CN,HK,TW,MO"
+    path: ./proxy-providers/yugogo/myfilter-ba.yaml
     interval: 3600
     health-check:
       enable: true
@@ -280,10 +216,10 @@ proxy-providers:
       # lazy: true
       url: http://www.gstatic.com/generate_204
 
-  keenpink_myfilter-bb:
+  yugogo_myfilter-ca:
     type: http
-    url: "https://proxypool.remon602.ga/clash/proxies?filter=nrp&type=vmess&c=CN,HK,TW,MO"
-    path: ./proxy-providers/keenpink/myfilter-bb.yaml
+    url: "https://sspool.herokuapp.com/clash/proxies?&c=SG,CA,RU,AU"
+    path: ./proxy-providers/yugogo/myfilter-ca.yaml
     interval: 3600
     health-check:
       enable: true
@@ -291,10 +227,10 @@ proxy-providers:
       # lazy: true
       url: http://www.gstatic.com/generate_204
 
-  keenpink_myfilter-bc:
+  yugogo_myfilter-cb:
     type: http
-    url: "https://proxypool.remon602.ga/clash/proxies?filter=nrp&type=ssr,trojan&c=CN,HK,TW,MO"
-    path: ./proxy-providers/keenpink/myfilter-bc.yaml
+    url: "https://sspool.herokuapp.com/clash/proxies?&c=CH,DE,FR,GD,NL"
+    path: ./proxy-providers/yugogo/myfilter-cb.yaml
     interval: 3600
     health-check:
       enable: true
@@ -302,10 +238,10 @@ proxy-providers:
       # lazy: true
       url: http://www.gstatic.com/generate_204
 
-  keenpink_myfilter-ca:
+  yugogo_myfilter-cc:
     type: http
-    url: "https://proxypool.remon602.ga/clash/proxies?filter=nrp&&c=SG,CA,RU,AU"
-    path: ./proxy-providers/keenpink/myfilter-ca.yaml
+    url: "https://sspool.herokuapp.com/clash/proxies?type=vmess,ssr,trojan&c=JP"
+    path: ./proxy-providers/yugogo/myfilter-cc.yaml
     interval: 3600
     health-check:
       enable: true
@@ -313,10 +249,10 @@ proxy-providers:
       # lazy: true
       url: http://www.gstatic.com/generate_204
 
-  keenpink_myfilter-cb:
+  yugogo_myfilter-cd:
     type: http
-    url: "https://proxypool.remon602.ga/clash/proxies?filter=nrp&&c=CH,DE,FR,GD,NL"
-    path: ./proxy-providers/keenpink/myfilter-cb.yaml
+    url: "https://sspool.herokuapp.com/clash/proxies?type=vmess,ssr,trojan&c=US"
+    path: ./proxy-providers/yugogo/myfilter-cd.yaml
     interval: 3600
     health-check:
       enable: true
@@ -324,10 +260,10 @@ proxy-providers:
       # lazy: true
       url: http://www.gstatic.com/generate_204
 
-  keenpink_myfilter-cc:
+  yugogo_myfilter-da:
     type: http
-    url: "https://proxypool.remon602.ga/clash/proxies?filter=nrp&type=vmess,ssr,trojan&c=JP"
-    path: ./proxy-providers/keenpink/myfilter-cc.yaml
+    url: "https://sspool.herokuapp.com/clash/proxies?c=AD,AE,AF,AG,AI,AL,AM,AN,AO,AQ,AR,ARPA,AS,AT,AW,AZ,BA,BB,BD,BE,BF,BG,BH,BI,BJ,BM,BN,BO,BR,BS,BT,BV,BW,BY,BZ,CC,CF,CD,CG,CI,CK,CL,CM,CO,COM,CR,CS,CU,CV,CX,CY,CZ,DJ,DK,DM,DO,DZ,EC,EDU,EE,EG,EH,ER,ES,ET,FI,FJ,FK,FM,FO,FX,GA,GB,GE,GF,GH,GI,GL,GM,GN"
+    path: ./proxy-providers/yugogo/myfilter-da.yaml
     interval: 3600
     health-check:
       enable: true
@@ -335,10 +271,10 @@ proxy-providers:
       # lazy: true
       url: http://www.gstatic.com/generate_204
 
-  keenpink_myfilter-cd:
+  yugogo_myfilter-db:
     type: http
-    url: "https://proxypool.remon602.ga/clash/proxies?filter=nrp&type=vmess,ssr,trojan&c=US"
-    path: ./proxy-providers/keenpink/myfilter-cd.yaml
+    url: "https://sspool.herokuapp.com/clash/proxies?c=GOV,GP,GQ,GR,GS,GT,GU,GW,GY,HM,HN,HR,HT,HU,ID,IE,IL,IN,INT,IO,IQ,IR,IS,IT,JM,JO,KE,KG,KH,KI,KM,KN,KP,KR,KW,KY,KZ,LA,LB,LC,LI,LK,LR,LS,LT,LU,LV,LY,MA,MC,MD,MG,MH,MIL,MK,ML,MM,MN,MP,MQ,MR,MS,MT,MU,MV,MW,MX,MY,MZ,NA,NATO,NC,NE,NET,NF,NG,NI,NO,NP,NR"
+    path: ./proxy-providers/yugogo/myfilter-db.yaml
     interval: 3600
     health-check:
       enable: true
@@ -346,32 +282,10 @@ proxy-providers:
       # lazy: true
       url: http://www.gstatic.com/generate_204
 
-  keenpink_myfilter-da:
+  yugogo_myfilter-dc:
     type: http
-    url: "https://proxypool.remon602.ga/clash/proxies?filter=nrp&c=AD,AE,AF,AG,AI,AL,AM,AN,AO,AQ,AR,ARPA,AS,AT,AW,AZ,BA,BB,BD,BE,BF,BG,BH,BI,BJ,BM,BN,BO,BR,BS,BT,BV,BW,BY,BZ,CC,CF,CD,CG,CI,CK,CL,CM,CO,COM,CR,CS,CU,CV,CX,CY,CZ,DJ,DK,DM,DO,DZ,EC,EDU,EE,EG,EH,ER,ES,ET,FI,FJ,FK,FM,FO,FX,GA,GB,GE,GF,GH,GI,GL,GM,GN"
-    path: ./proxy-providers/keenpink/myfilter-da.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      interval: 600
-      # lazy: true
-      url: http://www.gstatic.com/generate_204
-
-  keenpink_myfilter-db:
-    type: http
-    url: "https://proxypool.remon602.ga/clash/proxies?filter=nrp&c=GOV,GP,GQ,GR,GS,GT,GU,GW,GY,HM,HN,HR,HT,HU,ID,IE,IL,IN,INT,IO,IQ,IR,IS,IT,JM,JO,KE,KG,KH,KI,KM,KN,KP,KR,KW,KY,KZ,LA,LB,LC,LI,LK,LR,LS,LT,LU,LV,LY,MA,MC,MD,MG,MH,MIL,MK,ML,MM,MN,MP,MQ,MR,MS,MT,MU,MV,MW,MX,MY,MZ,NA,NATO,NC,NE,NET,NF,NG,NI,NO,NP,NR"
-    path: ./proxy-providers/keenpink/myfilter-db.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      interval: 600
-      # lazy: true
-      url: http://www.gstatic.com/generate_204
-
-  keenpink_myfilter-dc:
-    type: http
-    url: "https://proxypool.remon602.ga/clash/proxies?filter=nrp&c=NT,NU,NZ,OM,ORG,PA,PE,PF,PG,PH,PK,PL,PM,PN,PR,PT,PW,PY,QA,RE,RO,RW,SA,SB,SC,SD,SE,SH,SI,SJ,SK,SL,SM,SN,SO,SR,ST,SU,SV,SY,SZ,TC,TD,TF,TG,TH,TJ,TK,TM,TN,TO,TP,TR,TT,TV,TZ,UA,UG,UK,UM,UY,UZ,VA,VC,VE,VG,VI,VN,VU,WF,WS,YE,YT,YU,ZA,ZM,ZR,ZW"
-    path: ./proxy-providers/keenpink/myfilter-dc.yaml
+    url: "https://sspool.herokuapp.com/clash/proxies?c=NT,NU,NZ,OM,ORG,PA,PE,PF,PG,PH,PK,PL,PM,PN,PR,PT,PW,PY,QA,RE,RO,RW,SA,SB,SC,SD,SE,SH,SI,SJ,SK,SL,SM,SN,SO,SR,ST,SU,SV,SY,SZ,TC,TD,TF,TG,TH,TJ,TK,TM,TN,TO,TP,TR,TT,TV,TZ,UA,UG,UK,UM,UY,UZ,VA,VC,VE,VG,VI,VN,VU,WF,WS,YE,YT,YU,ZA,ZM,ZR,ZW"
+    path: ./proxy-providers/yugogo/myfilter-dc.yaml
     interval: 3600
     health-check:
       enable: true
