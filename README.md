@@ -26,14 +26,14 @@ Resources for Internet censorship circumvention
 
 #### `update-subs.py`
 
-更新并过滤 `config_yugogo` 配置的节点。
+更新并过滤配置的节点。
 
 用法
 
 ```shell
 curl -fLo update-subs.py --create-dirs 'https://raw.githubusercontent.com/JohanChane/IccRes/main/clash/update-subs.py'
 # 比如：`./update-subs.py config_yugogo.yaml`
-./update-subs.py <yugogo_cfg_name>
+./update-subs.py <cfg_name>
 ```
 
 ### `update_res`

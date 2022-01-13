@@ -18,9 +18,14 @@ def filter_proxies(net_res_files, clash_cfg_dir):
         # 过滤出有 `Mb` 字样的节点
         proxies = [x for x in proxy_data['proxies'] if re.search(r'\|.*[0-9]+\s*\.[0-9]+\s*Mb', x['name'])]
 
-        # 如果为空，则插入一个 NULL 节点
+        # 如果为空
         if not proxies:
-            proxies.append({"name":"NULL","server":"NULL","port":11708,"type":"ssr","country":"NULL","password":"sEscPBiAD9K$\u0026@79","cipher":"aes-256-cfb","protocol":"origin","protocol_param":"NULL","obfs":"http_simple"})
+            # 保存原样
+            continue
+
+            # 插入一个 NULL 节点
+            #  proxies.append({"name":"NULL","server":"NULL","port":11708,"type":"ssr","country":"NULL","password":"sEscPBiAD9K$\u0026@79","cipher":"aes-256-cfb","protocol":"origin","protocol_param":"NULL","obfs":"http_simple"})
+
         with open(pf, mode='w', encoding='utf-8') as f:
             yaml.dump({'proxies': proxies}, f)
 
@@ -51,8 +56,7 @@ def main():
 
     # ## 过滤节点
     # 过滤文件
-    net_res_files = [x[1] for x in net_res if not re.search(r'proxy\.yugogo\.xyz.*filter=1', x[0])]
-
+    net_res_files = [x[1] for x in net_res]
     filter_proxies(net_res_files, clash_cfg_dir)
 
     # ## install to /srv/clash
@@ -60,8 +64,8 @@ def main():
     #  dest_clash_cfg_dir = '/srv/clash'
     #  install_proxy_providers(net_res_files, src_clash_cfg_dir, dest_clash_cfg_dir)
 
-    print('Please reload your profile or config.')
     #  os.system('sudo systemctl restart clash')
+    print('Please reload your profile or config.')
 
 if __name__ == '__main__':
     main()
