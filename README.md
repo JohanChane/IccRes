@@ -24,9 +24,9 @@ Resources for Internet censorship circumvention
 4.  用 `update_res` 更新刚导入配置的资源。比如：`./update_res.py -d '/c/Users/johan/.config/clash' -n 'config_yugogo.yaml'`。
 5.  切换到该配置。
 
-#### `update-subs.py`
+#### `update-subs.py` (optional)
 
-更新订阅。
+用脚本更新订阅。
 
 用法
 
@@ -61,9 +61,9 @@ yacd
 
 > 在浏览器中输入 `http://127.0.0.1:9090/ui/#/`
 
-#### `update-subs.py`
+#### `update-subs.py` (optional)
 
-更新订阅。
+用脚本更新订阅。
 
 1.  将 `update_res` 目录复制到当前目录
 2.  复制 `update-subs.py` 到当前目录
