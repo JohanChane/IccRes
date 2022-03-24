@@ -43,14 +43,11 @@ def install_proxy_providers(net_res_files, src_clash_cfg_dir, dest_clash_cfg_dir
 
 def main():
     # 要注意 home_path 是否正确
-    #  user=os.environ['USER']
-    home_path=os.environ['HOME']
-    clash_cfg_dir = os.path.join(home_path, '.config/clash_tun')
+    user=os.environ['USER']
+    home_path=f'/c/Users/{user}'
+    clash_cfg_dir = os.path.join(home_path, '.config/clash')
 
-    cfg_rel_path = 'config.yaml'
-    if len(sys.argv) > 1:
-        cfg_rel_path = sys.argv[1]
-    cfg_path = update_res.get_cfg_path(clash_cfg_dir, cfg_rel_path = cfg_rel_path)
+    cfg_path = update_res.get_cfg_path(clash_cfg_dir, cfg_name=sys.argv[1])
     net_res = update_res.get_net_res(cfg_path)
     # 更新节点
     #  proxy='socks5://127.0.0.1:7890'
@@ -58,16 +55,17 @@ def main():
     update_res.update_net_res(net_res, clash_cfg_dir, proxy=proxy)
 
     # ## 过滤节点
+    # 过滤文件
     net_res_files = [x[1] for x in net_res]
-    #  filter_proxies(net_res_files, clash_cfg_dir)
+    filter_proxies(net_res_files, clash_cfg_dir)
 
     # ## install to /srv/clash
-    src_clash_cfg_dir = clash_cfg_dir
-    dest_clash_cfg_dir = '/srv/clash'
-    install_proxy_providers(net_res_files, src_clash_cfg_dir, dest_clash_cfg_dir)
+    #  src_clash_cfg_dir = clash_cfg_dir
+    #  dest_clash_cfg_dir = '/srv/clash'
+    #  install_proxy_providers(net_res_files, src_clash_cfg_dir, dest_clash_cfg_dir)
 
-    os.system('sudo systemctl restart clash')
-    #  print('Please reload your profile or config.')
+    #  os.system('sudo systemctl restart clash')
+    print('Please reload your profile or config.')
 
 if __name__ == '__main__':
     main()

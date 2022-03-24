@@ -26,15 +26,51 @@ Resources for Internet censorship circumvention
 
 #### `update-subs.py`
 
-更新并过滤配置的节点。
+更新订阅。
 
 用法
 
+1.  将 update_res 目录复制到当前目录
+2.  复制 `update-subs-win.py` 到当前目录
+3.  使用 `update-subs-win`
+
+        # 比如：`./update-subs-win.py config.yaml`
+        ./update-subs-win.py <cfg_name>
+
+### Linux 平台
+
+安装 [Kr328/clash-premium-installer](https://github.com/Kr328/clash-premium-installer)
+
+安装之后
+
 ```shell
-curl -fLo update-subs.py --create-dirs 'https://raw.githubusercontent.com/JohanChane/IccRes/main/clash/update-subs.py'
-# 比如：`./update-subs.py config_yugogo.yaml`
-./update-subs.py <cfg_name>
+sudo chmod a+x /srv/clash
+# 非 root 用户。用于存放 clash 配置。
+mkdir ~/.config/clash_tun
+将 [yacd](https://github.com/haishanh/yacd/archive/gh-pages.zip) 解压到 clash_tun, 并修改解压后的目录为 `yacd`。
+ln -s /srv/clash/yacd ~/.config/clash_tun/yacd
+
+sudo systemctl edit --full clash.service
+# 修改 ExecStart。要使用自己的 user。
+#ExecStart=/usr/bin/bypass-proxy /usr/bin/clash -d /srv/clash -f /home/<user>/.config/clash_tun/config.yaml
+# 重启 clash
+sudo systemctl restart clash.service
 ```
+
+yacd
+
+> 在浏览器中输入 `http://127.0.0.1:9090/ui/#/`
+
+#### `update-subs.py`
+
+更新订阅。
+
+1.  将 `update_res` 目录复制到当前目录
+2.  复制 `update-subs.py` 到当前目录
+3.  使用 `update-subs`
+
+        # 比如：`./update-subs.py config.yaml`
+        ./update-subs.py <cfg_name>
 
 ### `update_res`
 
