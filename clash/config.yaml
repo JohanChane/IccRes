@@ -104,6 +104,7 @@ proxy-groups:
       - AllFallback-aa
       - AllAuto-aa
       - AllSelect
+      - SelectUs
       - YugogoAuto-b
       - YugogoAuto-c
       - YugogoAuto-d
@@ -159,6 +160,16 @@ proxy-groups:
     url: 'https://www.google.com'
     interval: 300
 
+  - name: "SelectUs"
+    type: select
+    use:
+      - yugogo_myfilter-cb
+    proxies:
+    # lazy: true
+    # url: 'http://www.gstatic.com/generate_204'
+    url: 'https://www.google.com'
+    interval: 300
+
   - name: "YugogoAuto-b"
     type: url-test
     use:
@@ -174,8 +185,6 @@ proxy-groups:
     use:
       - yugogo_myfilter-ca
       - yugogo_myfilter-cb
-      - yugogo_myfilter-cc
-      - yugogo_myfilter-cd
     proxies:
     # tolerance: 50
     # lazy: true
@@ -186,8 +195,6 @@ proxy-groups:
     type: url-test
     use:
       - yugogo_myfilter-da
-      - yugogo_myfilter-db
-      - yugogo_myfilter-dc
     proxies:
     # tolerance: 50
     # lazy: true
@@ -218,7 +225,7 @@ proxy-providers:
 
   yugogo_myfilter-ca:
     type: http
-    url: "https://sspool.herokuapp.com/clash/proxies?&c=SG,CA,RU,AU"
+    url: "https://sspool.herokuapp.com/clash/proxies?type=vmess,ssr,trojan&c=SG,CA,RU,AU,CH,DE,FR,GD,NL,JP"
     path: ./proxy-providers/yugogo/myfilter-ca.yaml
     interval: 3600
     health-check:
@@ -229,30 +236,8 @@ proxy-providers:
 
   yugogo_myfilter-cb:
     type: http
-    url: "https://sspool.herokuapp.com/clash/proxies?&c=CH,DE,FR,GD,NL"
-    path: ./proxy-providers/yugogo/myfilter-cb.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      interval: 600
-      # lazy: true
-      url: http://www.gstatic.com/generate_204
-
-  yugogo_myfilter-cc:
-    type: http
-    url: "https://sspool.herokuapp.com/clash/proxies?type=vmess,ssr,trojan&c=JP"
-    path: ./proxy-providers/yugogo/myfilter-cc.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      interval: 600
-      # lazy: true
-      url: http://www.gstatic.com/generate_204
-
-  yugogo_myfilter-cd:
-    type: http
     url: "https://sspool.herokuapp.com/clash/proxies?type=vmess,ssr,trojan&c=US"
-    path: ./proxy-providers/yugogo/myfilter-cd.yaml
+    path: ./proxy-providers/yugogo/myfilter-cb.yaml
     interval: 3600
     health-check:
       enable: true
@@ -262,30 +247,8 @@ proxy-providers:
 
   yugogo_myfilter-da:
     type: http
-    url: "https://sspool.herokuapp.com/clash/proxies?c=AD,AE,AF,AG,AI,AL,AM,AN,AO,AQ,AR,ARPA,AS,AT,AW,AZ,BA,BB,BD,BE,BF,BG,BH,BI,BJ,BM,BN,BO,BR,BS,BT,BV,BW,BY,BZ,CC,CF,CD,CG,CI,CK,CL,CM,CO,COM,CR,CS,CU,CV,CX,CY,CZ,DJ,DK,DM,DO,DZ,EC,EDU,EE,EG,EH,ER,ES,ET,FI,FJ,FK,FM,FO,FX,GA,GB,GE,GF,GH,GI,GL,GM,GN"
+    url: "https://sspool.herokuapp.com/clash/proxies?type=vmess,ssr,trojan&c=AD,AE,AF,AG,AI,AL,AM,AN,AO,AQ,AR,ARPA,AS,AT,AW,AZ,BA,BB,BD,BE,BF,BG,BH,BI,BJ,BM,BN,BO,BR,BS,BT,BV,BW,BY,BZ,CC,CF,CD,CG,CI,CK,CL,CM,CO,COM,CR,CS,CU,CV,CX,CY,CZ,DJ,DK,DM,DO,DZ,EC,EDU,EE,EG,EH,ER,ES,ET,FI,FJ,FK,FM,FO,FX,GA,GB,GE,GF,GH,GI,GL,GM,GN,GOV,GP,GQ,GR,GS,GT,GU,GW,GY,HM,HN,HR,HT,HU,ID,IE,IL,IN,INT,IO,IQ,IR,IS,IT,JM,JO,KE,KG,KH,KI,KM,KN,KP,KR,KW,KY,KZ,LA,LB,LC,LI,LK,LR,LS,LT,LU,LV,LY,MA,MC,MD,MG,MH,MIL,MK,ML,MM,MN,MP,MQ,MR,MS,MT,MU,MV,MW,MX,MY,MZ,NA,NATO,NC,NE,NET,NF,NG,NI,NO,NP,NR,NT,NU,NZ,OM,ORG,PA,PE,PF,PG,PH,PK,PL,PM,PN,PR,PT,PW,PY,QA,RE,RO,RW,SA,SB,SC,SD,SE,SH,SI,SJ,SK,SL,SM,SN,SO,SR,ST,SU,SV,SY,SZ,TC,TD,TF,TG,TH,TJ,TK,TM,TN,TO,TP,TR,TT,TV,TZ,UA,UG,UK,UM,UY,UZ,VA,VC,VE,VG,VI,VN,VU,WF,WS,YE,YT,YU,ZA,ZM,ZR,ZW"
     path: ./proxy-providers/yugogo/myfilter-da.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      interval: 600
-      # lazy: true
-      url: http://www.gstatic.com/generate_204
-
-  yugogo_myfilter-db:
-    type: http
-    url: "https://sspool.herokuapp.com/clash/proxies?c=GOV,GP,GQ,GR,GS,GT,GU,GW,GY,HM,HN,HR,HT,HU,ID,IE,IL,IN,INT,IO,IQ,IR,IS,IT,JM,JO,KE,KG,KH,KI,KM,KN,KP,KR,KW,KY,KZ,LA,LB,LC,LI,LK,LR,LS,LT,LU,LV,LY,MA,MC,MD,MG,MH,MIL,MK,ML,MM,MN,MP,MQ,MR,MS,MT,MU,MV,MW,MX,MY,MZ,NA,NATO,NC,NE,NET,NF,NG,NI,NO,NP,NR"
-    path: ./proxy-providers/yugogo/myfilter-db.yaml
-    interval: 3600
-    health-check:
-      enable: true
-      interval: 600
-      # lazy: true
-      url: http://www.gstatic.com/generate_204
-
-  yugogo_myfilter-dc:
-    type: http
-    url: "https://sspool.herokuapp.com/clash/proxies?c=NT,NU,NZ,OM,ORG,PA,PE,PF,PG,PH,PK,PL,PM,PN,PR,PT,PW,PY,QA,RE,RO,RW,SA,SB,SC,SD,SE,SH,SI,SJ,SK,SL,SM,SN,SO,SR,ST,SU,SV,SY,SZ,TC,TD,TF,TG,TH,TJ,TK,TM,TN,TO,TP,TR,TT,TV,TZ,UA,UG,UK,UM,UY,UZ,VA,VC,VE,VG,VI,VN,VU,WF,WS,YE,YT,YU,ZA,ZM,ZR,ZW"
-    path: ./proxy-providers/yugogo/myfilter-dc.yaml
     interval: 3600
     health-check:
       enable: true
@@ -417,9 +380,18 @@ rules:
 
   # #### Common
   - DOMAIN-SUFFIX,altapps.net,PROXY
+
+  # #### 科学上网
+  - DOMAIN,cdn.jsdelivr.net,PROXY
   - DOMAIN-SUFFIX,v2rayse.com,PROXY
-  - DOMAIN-SUFFIX,bianyuan.xyz,PROXY
   - DOMAIN-SUFFIX,herokuapp.com,PROXY
+  # ##### 订阅转换
+  - DOMAIN-SUFFIX,bianyuan.xyz,PROXY
+  - DOMAIN-SUFFIX,suo.yt,PROXY
+  - DOMAIN-SUFFIX,sub.xeton.dev,PROXY
+  - DOMAIN-SUFFIX,pub-api-1.bianyuan.xyz,PROXY
+  - DOMAIN-SUFFIX,sub.id9.cc,PROXY
+  # ##### Others
   - DOMAIN-SUFFIX,bulink.xyz,PROXY
   - DOMAIN-SUFFIX,yugogo.xyz,PROXY
   - DOMAIN-SUFFIX,sspool.nl,PROXY
@@ -427,8 +399,21 @@ rules:
   - DOMAIN-SUFFIX,kingfu.cf,PROXY
   - DOMAIN-SUFFIX,swyjq.com,PROXY
   - DOMAIN-SUFFIX,hax.co.id,PROXY
+  - DOMAIN-SUFFIX,niaoyun.me,PROXY
+  - DOMAIN-SUFFIX,niaoyun-a.xyz,PROXY
+  - DOMAIN-SUFFIX,www.v2gyy.com,PROXY
+  - DOMAIN-SUFFIX,niaocloud-rss.com,PROXY
+  - DOMAIN-SUFFIX,xdmyyds.com,PROXY
+  - DOMAIN-SUFFIX,55k.buzz,PROXY
+  - DOMAIN-SUFFIX,freemycloud.me,PROXY
+  - DOMAIN-SUFFIX,ssthy.com,PROXY
+  - DOMAIN-SUFFIX,juzi000.com,PROXY
+  - DOMAIN-SUFFIX,juzicloud.net,PROXY
+  - DOMAIN-SUFFIX,cv2.us,PROXY
 
-   # #### Temp
+  # #### Temp
+  - DOMAIN-SUFFIX,rust-lang.org,PROXY
+  - DOMAIN-SUFFIX,rustwiki.org,PROXY
   - DOMAIN-SUFFIX,bootcdn.net,PROXY
   - DOMAIN-SUFFIX,ytimg.com,PROXY
   - DOMAIN-SUFFIX,lbyczf.com,PROXY
@@ -436,6 +421,15 @@ rules:
   - DOMAIN-SUFFIX,zxfast.com,PROXY
   - DOMAIN-SUFFIX,happykidsforum.org,PROXY
   - DOMAIN-SUFFIX,tiktokcdn.com,PROXY
+  - DOMAIN-SUFFIX,truthsocial.com,PROXY
+  - DOMAIN-SUFFIX,welink345.com,PROXY
+  - DOMAIN-SUFFIX,redditmail.com,PROXY
+  - DOMAIN-SUFFIX,rutracker.org,PROXY
+  - DOMAIN-SUFFIX,beautyleg.com,PROXY
+  - DOMAIN-SUFFIX,limbopro.com,PROXY
+
+  # ### Domain KeyWord
+  - DOMAIN-KEYWORD,speedtest,PROXY
 
   # ## No Custom
   - RULE-SET,applications,DIRECT
@@ -457,7 +451,7 @@ rules:
   - RULE-SET,lancidr,DIRECT
   - RULE-SET,cncidr,DIRECT
 
-  - GEOIP,,DIRECT
+  - GEOIP,LAN,DIRECT
   - GEOIP,CN,DIRECT
 
   - MATCH,RuleMode

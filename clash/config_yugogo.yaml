@@ -108,6 +108,7 @@ proxy-groups:
       - YugogoAuto-d
       - YugogoAuto-z
       - AllSelect
+      - SelectUs
     # lazy: true
     # url: 'http://www.gstatic.com/generate_204'
     url: 'https://www.google.com'
@@ -155,6 +156,16 @@ proxy-groups:
       - yugogo_myfilter-bb
       - yugogo_myfilter-bc
       - yugogo_myfilter-za
+    proxies:
+    # lazy: true
+    # url: 'http://www.gstatic.com/generate_204'
+    url: 'https://www.google.com'
+    interval: 300
+
+  - name: "SelectUs"
+    type: select
+    use:
+      - yugogo_myfilter-cd
     proxies:
     # lazy: true
     # url: 'http://www.gstatic.com/generate_204'
@@ -443,9 +454,18 @@ rules:
 
   # #### Common
   - DOMAIN-SUFFIX,altapps.net,PROXY
+
+  # #### 科学上网
+  - DOMAIN,cdn.jsdelivr.net,PROXY
   - DOMAIN-SUFFIX,v2rayse.com,PROXY
-  - DOMAIN-SUFFIX,bianyuan.xyz,PROXY
   - DOMAIN-SUFFIX,herokuapp.com,PROXY
+  # ##### 订阅转换
+  - DOMAIN-SUFFIX,bianyuan.xyz,PROXY
+  - DOMAIN-SUFFIX,suo.yt,PROXY
+  - DOMAIN-SUFFIX,sub.xeton.dev,PROXY
+  - DOMAIN-SUFFIX,pub-api-1.bianyuan.xyz,PROXY
+  - DOMAIN-SUFFIX,sub.id9.cc,PROXY
+  # ##### Others
   - DOMAIN-SUFFIX,bulink.xyz,PROXY
   - DOMAIN-SUFFIX,yugogo.xyz,PROXY
   - DOMAIN-SUFFIX,sspool.nl,PROXY
@@ -453,8 +473,21 @@ rules:
   - DOMAIN-SUFFIX,kingfu.cf,PROXY
   - DOMAIN-SUFFIX,swyjq.com,PROXY
   - DOMAIN-SUFFIX,hax.co.id,PROXY
+  - DOMAIN-SUFFIX,niaoyun.me,PROXY
+  - DOMAIN-SUFFIX,niaoyun-a.xyz,PROXY
+  - DOMAIN-SUFFIX,www.v2gyy.com,PROXY
+  - DOMAIN-SUFFIX,niaocloud-rss.com,PROXY
+  - DOMAIN-SUFFIX,xdmyyds.com,PROXY
+  - DOMAIN-SUFFIX,55k.buzz,PROXY
+  - DOMAIN-SUFFIX,freemycloud.me,PROXY
+  - DOMAIN-SUFFIX,ssthy.com,PROXY
+  - DOMAIN-SUFFIX,juzi000.com,PROXY
+  - DOMAIN-SUFFIX,juzicloud.net,PROXY
+  - DOMAIN-SUFFIX,cv2.us,PROXY
 
-   # #### Temp
+  # #### Temp
+  - DOMAIN-SUFFIX,rust-lang.org,PROXY
+  - DOMAIN-SUFFIX,rustwiki.org,PROXY
   - DOMAIN-SUFFIX,bootcdn.net,PROXY
   - DOMAIN-SUFFIX,ytimg.com,PROXY
   - DOMAIN-SUFFIX,lbyczf.com,PROXY
@@ -462,6 +495,15 @@ rules:
   - DOMAIN-SUFFIX,zxfast.com,PROXY
   - DOMAIN-SUFFIX,happykidsforum.org,PROXY
   - DOMAIN-SUFFIX,tiktokcdn.com,PROXY
+  - DOMAIN-SUFFIX,truthsocial.com,PROXY
+  - DOMAIN-SUFFIX,welink345.com,PROXY
+  - DOMAIN-SUFFIX,redditmail.com,PROXY
+  - DOMAIN-SUFFIX,rutracker.org,PROXY
+  - DOMAIN-SUFFIX,beautyleg.com,PROXY
+  - DOMAIN-SUFFIX,limbopro.com,PROXY
+
+  # ### Domain KeyWord
+  - DOMAIN-KEYWORD,speedtest,PROXY
 
   # ## No Custom
   - RULE-SET,applications,DIRECT
@@ -483,7 +525,7 @@ rules:
   - RULE-SET,lancidr,DIRECT
   - RULE-SET,cncidr,DIRECT
 
-  - GEOIP,,DIRECT
+  - GEOIP,LAN,DIRECT
   - GEOIP,CN,DIRECT
 
   - MATCH,RuleMode
