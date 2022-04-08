@@ -47,7 +47,7 @@ external-controller: 127.0.0.1:9090
 # A relative path to the configuration directory or an absolute path to a
 # directory in which you put some static web resource. Clash core will then
 # serve it at `http://{{external-controller}}/ui`.
-#external-ui: yacd
+external-ui: yacd
 
 # Secret for the RESTful API (optional)
 # Authenticate by spedifying HTTP header `Authorization: Bearer ${secret}`
@@ -172,6 +172,7 @@ proxy-groups:
       - KeenPinkAuto-z
       - AllSelect
       - SelectUs
+      - TorSelect
     # lazy: true
     # url: 'http://www.gstatic.com/generate_204'
     url: 'https://www.google.com'
@@ -232,6 +233,15 @@ proxy-groups:
     url: 'https://www.google.com'
     interval: 300
 
+  - name: "TorSelect"
+    type: select
+    proxies:
+      - tor
+    # lazy: true
+    # url: 'http://www.gstatic.com/generate_204'
+    url: 'https://www.google.com'
+    interval: 300
+
   - name: "KeenPinkAuto-b"
     type: url-test
     use:
@@ -278,6 +288,27 @@ proxy-groups:
     # lazy: true
     url: 'http://www.gstatic.com/generate_204'
     interval: 300
+
+proxies:
+  - name: "tor"
+    type: socks5
+    server: 127.0.0.1
+    port: 9150
+    # username: username
+    # password: password
+    # tls: true
+    # skip-cert-verify: true
+    # udp: true
+
+  # - name: "http"
+  #   type: http
+  #   server: server
+  #   port: 443
+  #   # username: username
+  #   # password: password
+  #   # tls: true # https
+  #   # skip-cert-verify: true
+  #   # sni: custom.com
 
 proxy-providers:
   keenpink_myfilter-ba:

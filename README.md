@@ -16,13 +16,18 @@ Resources for Internet censorship circumvention
 
 ### Windows 平台
 
-用 Clash for Windows, 并[开启 tun 模式](https://docs.cfw.lbyczf.com/contents/tun.html#windows)。
+使用 Clash for Windows
+
+1.  [开启 tun 模式](https://docs.cfw.lbyczf.com/contents/tun.html#windows)。
+2.  将 [yacd](https://github.com/haishanh/yacd/archive/gh-pages.zip) 解压到 `Users/<user>/.config/clash`, 并修改解压后的目录为 `yacd`。
+3.  导入配置。比如：在 github 打开配置的文件，并点击 "Raw" 按钮，然后复制 url，再然后在 Clash for Windows 中导入该 url。
+4.  切换到该配置。打开 [yacd](http://127.0.0.1:9090/ui/#/proxies)。
+
+如果无法切换该配置时
 
 1.  安装运行 linux shell 的工具。比如：msys64。
-2.  导入配置。比如：在 github 打开配置的文件，并点击 "Raw" 按钮，然后复制 url，再然后在 Clash for Windows 中导入该 url。
-3.  找到导入配置的名称。比如：`config_yugogo.yaml`。并确保名称唯一。
-4.  用 `update_res` 更新刚导入配置的资源。比如：`./update_res.py -d '/c/Users/johan/.config/clash' -n 'config_yugogo.yaml'`。
-5.  切换到该配置。
+2.  找到导入配置的名称。比如：`config_yugogo.yaml`。并确保名称唯一。
+3.  切换回一个可翻墙的配置。然后用 `update_res` 更新刚导入配置的资源。比如：`./update_res.py -d '/c/Users/johan/.config/clash' -n 'config_yugogo.yaml'`。
 
 #### `update-subs.py` (optional)
 
@@ -30,7 +35,7 @@ Resources for Internet censorship circumvention
 
 用法
 
-1.  将 update_res 目录复制到当前目录
+1.  将 `update_res` 目录复制到当前目录
 2.  复制 `update-subs-win.py` 到当前目录
 3.  使用 `update-subs-win`
 
