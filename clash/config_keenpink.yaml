@@ -155,9 +155,10 @@ dns:
     - 8.8.8.8
 tun:
   enable: true
-  stack: system # 或 gvisor
+  stack: system # or gvisor
   dns-hijack:
-    - 1.0.0.1:53 # 请勿更改
+    - any:53
+    - tcp://any:53
 
 proxy-groups:
   - name: "PROXY"
