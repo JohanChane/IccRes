@@ -94,8 +94,12 @@ tun:
   enable: true
   stack: system # or gvisor
   dns-hijack:
+  #   - 8.8.8.8:53
+  #   - tcp://8.8.8.8:53
     - any:53
     - tcp://any:53
+  auto-route: true # auto set global route
+  auto-detect-interface: true # conflict with interface-name
 
 proxy-groups:
   - name: "PROXY"
@@ -106,11 +110,11 @@ proxy-groups:
       - AllAuto-aa
       - AllSelect
       - SelectUs
-      - TorSelect
-      - YugogoAuto-b
-      - YugogoAuto-c
-      - YugogoAuto-d
-      - KeenPinkAuto-z
+      - SelectTor
+      - NodePoolAuto-b
+      - NodePoolAuto-c
+      - NodePoolAuto-d
+      - NodePoolAuto-z
     # lazy: true
     # url: 'http://www.gstatic.com/generate_204'
     url: 'https://www.google.com'
@@ -127,10 +131,10 @@ proxy-groups:
     type: fallback
     use:
     proxies:
-      - YugogoAuto-b
-      - KeenPinkAuto-z
-      - YugogoAuto-c
-      - YugogoAuto-d
+      - NodePoolAuto-b
+      - NodePoolAuto-c
+      - NodePoolAuto-d
+      - NodePoolAuto-z
     # tolerance: 50
     # lazy: true
     # url: 'http://www.gstatic.com/generate_204'
@@ -141,10 +145,10 @@ proxy-groups:
     type: url-test
     use:
     proxies:
-      - YugogoAuto-b
-      - YugogoAuto-c
-      - YugogoAuto-d
-      - KeenPinkAuto-z
+      - NodePoolAuto-b
+      - NodePoolAuto-c
+      - NodePoolAuto-d
+      - NodePoolAuto-z
     # tolerance: 50
     # lazy: true
     # url: 'http://www.gstatic.com/generate_204'
@@ -154,8 +158,8 @@ proxy-groups:
   - name: "AllSelect"
     type: select
     use:
-      - yugogo_myfilter-ba
-      - keenpink_myfilter-za
+      - nodepool_myfilter-ba
+      - nodepool_myfilter-za
     proxies:
     # lazy: true
     # url: 'http://www.gstatic.com/generate_204'
@@ -165,14 +169,14 @@ proxy-groups:
   - name: "SelectUs"
     type: select
     use:
-      - yugogo_myfilter-cb
+      - nodepool_myfilter-cb
     proxies:
     # lazy: true
     # url: 'http://www.gstatic.com/generate_204'
     url: 'https://www.google.com'
     interval: 300
 
-  - name: "TorSelect"
+  - name: "SelectTor"
     type: select
     proxies:
       - tor
@@ -181,41 +185,41 @@ proxy-groups:
     url: 'https://www.google.com'
     interval: 300
 
-  - name: "YugogoAuto-b"
+  - name: "NodePoolAuto-b"
     type: url-test
     use:
-      - yugogo_myfilter-ba
+      - nodepool_myfilter-ba
     proxies:
     # tolerance: 50
     # lazy: true
     url: 'http://www.gstatic.com/generate_204'
     interval: 300
 
-  - name: "YugogoAuto-c"
+  - name: "NodePoolAuto-c"
     type: url-test
     use:
-      - yugogo_myfilter-ca
-      - yugogo_myfilter-cb
+      - nodepool_myfilter-ca
+      - nodepool_myfilter-cb
     proxies:
     # tolerance: 50
     # lazy: true
     url: 'http://www.gstatic.com/generate_204'
     interval: 300
 
-  - name: "YugogoAuto-d"
+  - name: "NodePoolAuto-d"
     type: url-test
     use:
-      - yugogo_myfilter-da
+      - nodepool_myfilter-da
     proxies:
     # tolerance: 50
     # lazy: true
     url: 'http://www.gstatic.com/generate_204'
     interval: 300
 
-  - name: "KeenPinkAuto-z"
+  - name: "NodePoolAuto-z"
     type: url-test
     use:
-      - keenpink_myfilter-za
+      - nodepool_myfilter-za
     proxies:
     # tolerance: 50
     # lazy: true
@@ -244,10 +248,10 @@ proxies:
   #   # sni: custom.com
 
 proxy-providers:
-  yugogo_myfilter-ba:
+  nodepool_myfilter-ba:
     type: http
     url: "https://sspool.herokuapp.com/clash/proxies?c=CN,HK,TW,MO"
-    path: ./proxy-providers/yugogo/myfilter-ba.yaml
+    path: ./proxy-providers/nodepool/myfilter-ba.yaml
     interval: 3600
     health-check:
       enable: true
@@ -255,10 +259,10 @@ proxy-providers:
       # lazy: true
       url: http://www.gstatic.com/generate_204
 
-  yugogo_myfilter-ca:
+  nodepool_myfilter-ca:
     type: http
     url: "https://sspool.herokuapp.com/clash/proxies?type=vmess,ssr,trojan&c=SG,CA,RU,AU,CH,DE,FR,GD,NL,JP"
-    path: ./proxy-providers/yugogo/myfilter-ca.yaml
+    path: ./proxy-providers/nodepool/myfilter-ca.yaml
     interval: 3600
     health-check:
       enable: true
@@ -266,10 +270,10 @@ proxy-providers:
       # lazy: true
       url: http://www.gstatic.com/generate_204
 
-  yugogo_myfilter-cb:
+  nodepool_myfilter-cb:
     type: http
     url: "https://sspool.herokuapp.com/clash/proxies?type=vmess,ssr,trojan&c=US"
-    path: ./proxy-providers/yugogo/myfilter-cb.yaml
+    path: ./proxy-providers/nodepool/myfilter-cb.yaml
     interval: 3600
     health-check:
       enable: true
@@ -277,10 +281,10 @@ proxy-providers:
       # lazy: true
       url: http://www.gstatic.com/generate_204
 
-  yugogo_myfilter-da:
+  nodepool_myfilter-da:
     type: http
     url: "https://sspool.herokuapp.com/clash/proxies?type=vmess,ssr,trojan&c=AD,AE,AF,AG,AI,AL,AM,AN,AO,AQ,AR,ARPA,AS,AT,AW,AZ,BA,BB,BD,BE,BF,BG,BH,BI,BJ,BM,BN,BO,BR,BS,BT,BV,BW,BY,BZ,CC,CF,CD,CG,CI,CK,CL,CM,CO,COM,CR,CS,CU,CV,CX,CY,CZ,DJ,DK,DM,DO,DZ,EC,EDU,EE,EG,EH,ER,ES,ET,FI,FJ,FK,FM,FO,FX,GA,GB,GE,GF,GH,GI,GL,GM,GN,GOV,GP,GQ,GR,GS,GT,GU,GW,GY,HM,HN,HR,HT,HU,ID,IE,IL,IN,INT,IO,IQ,IR,IS,IT,JM,JO,KE,KG,KH,KI,KM,KN,KP,KR,KW,KY,KZ,LA,LB,LC,LI,LK,LR,LS,LT,LU,LV,LY,MA,MC,MD,MG,MH,MIL,MK,ML,MM,MN,MP,MQ,MR,MS,MT,MU,MV,MW,MX,MY,MZ,NA,NATO,NC,NE,NET,NF,NG,NI,NO,NP,NR,NT,NU,NZ,OM,ORG,PA,PE,PF,PG,PH,PK,PL,PM,PN,PR,PT,PW,PY,QA,RE,RO,RW,SA,SB,SC,SD,SE,SH,SI,SJ,SK,SL,SM,SN,SO,SR,ST,SU,SV,SY,SZ,TC,TD,TF,TG,TH,TJ,TK,TM,TN,TO,TP,TR,TT,TV,TZ,UA,UG,UK,UM,UY,UZ,VA,VC,VE,VG,VI,VN,VU,WF,WS,YE,YT,YU,ZA,ZM,ZR,ZW"
-    path: ./proxy-providers/yugogo/myfilter-da.yaml
+    path: ./proxy-providers/nodepool/myfilter-da.yaml
     interval: 3600
     health-check:
       enable: true
@@ -288,10 +292,10 @@ proxy-providers:
       # lazy: true
       url: http://www.gstatic.com/generate_204
 
-  keenpink_myfilter-za:
+  nodepool_myfilter-za:
     type: http
-    url: "https://proxypool.remon602.ga/clash/proxies?filter=r"
-    path: ./proxy-providers/keenpink/myfilter-za.yaml
+    url: "https://proxies.bihai.cf/clash/proxies?filter=r"
+    path: ./proxy-providers/nodepool/myfilter-za.yaml
     interval: 3600
     health-check:
       enable: true
@@ -439,13 +443,12 @@ rules:
   - DOMAIN-SUFFIX,55k.buzz,PROXY
   - DOMAIN-SUFFIX,freemycloud.me,PROXY
   - DOMAIN-SUFFIX,ssthy.com,PROXY
+  - DOMAIN-SUFFIX,888888.sbs,PROXY
   - DOMAIN-SUFFIX,juzi000.com,PROXY
   - DOMAIN-SUFFIX,juzicloud.net,PROXY
   - DOMAIN-SUFFIX,cv2.us,PROXY
 
   # #### Temp
-  - DOMAIN-SUFFIX,rust-lang.org,PROXY
-  - DOMAIN-SUFFIX,rustwiki.org,PROXY
   - DOMAIN-SUFFIX,bootcdn.net,PROXY
   - DOMAIN-SUFFIX,ytimg.com,PROXY
   - DOMAIN-SUFFIX,lbyczf.com,PROXY
