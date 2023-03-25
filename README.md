@@ -88,8 +88,8 @@ proxy-providers:
 
 ## `config_template` 的使用说明
 
-LastMatch: 最后一条规则的流量入口。
-    
+LastMatch: 最后一条规则的流量入口。See [Loyalsoldier/clash-rules](https://github.com/Loyalsoldier/clash-rules)
+
 -   DIRECT: 直连。表示黑名单模式。意为 "只有命中规则的网络流量，才使用代理"，适用于服务器线路网络质量不稳定或不够快，或服务器流量紧缺的用户。比较安全。
 -   ENTRY: 代理。表示白名单模式。意为 "没有命中规则的网络流量，统统使用代理"。适用于服务器线路网络质量稳定、快速，不缺服务器流量的用户。
 
